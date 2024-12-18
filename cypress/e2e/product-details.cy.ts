@@ -57,7 +57,7 @@ describe('Product Details Page test', () => {
     });
   });
 
-  it.only('Add a product to the cart', () => {
+  it('Add a product to the cart', () => {
     // Select a product
     cy.get(searchPage.productItems).first().click();
     cy.get(productDetailsPage.productPageTitle).should('be.visible', { setTimeout: 5000 });

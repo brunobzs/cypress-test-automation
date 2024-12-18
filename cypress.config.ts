@@ -12,4 +12,5 @@ export default defineConfig({
       openMode: 0
     },
   },
+  projectId: "8zypge"
 })

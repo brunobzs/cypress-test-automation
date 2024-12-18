@@ -2,36 +2,41 @@ name: Run Cypress Tests
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
+    branches: [ master ]
 
 jobs:
-  cypress-run:
+  build:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        node-version: [ 22.x ] # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        browser: [ chrome, firefox ]
+        containers: [1, 2] # Uses 2 parallel instances
+
     steps:
-      # 1. Checkout do código
+      # 1. Code Checkout
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Configurar o Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      # 3. Instalar dependências
+      # 2. Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # 4. Rodar testes do Cypress
+      # 4. Running Cypress tests
       - name: Run Cypress Tests
-        run: npx cypress run
+        run: |
+          npx cypress run \
+            --record \
+            --key 9f264146-cc33-40ca-b436-a2841eeaf9a8 \
+            --parallel \
+            --group "browser-${{ matrix.browser }}" \
+            --browser ${{ matrix.browser }} 
 
-      # 5. Fazer upload dos resultados (opcional)
+      # 5. Upload results
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-results
           path: cypress/videos/
