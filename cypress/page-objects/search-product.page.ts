@@ -60,6 +60,14 @@ class SearchPage {
     // Check if the product items are listed
     cy.get(this.productItems).should('have.length.greaterThan', 0);
   }
+
+  /**
+   * Check if the search returned no results
+   */
+  messageNoResults() {
+    cy.get(this.noticeMessage).should('be.visible')
+      .and('contain.text', 'Your search returned no results.');
+  }
 }
 
 export default new SearchPage();

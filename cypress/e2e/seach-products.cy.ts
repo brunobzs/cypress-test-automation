@@ -13,18 +13,13 @@ describe('Search Products Test', () => {
 
   it('Search for valid keyword', () => {
     const keyword: string = 't-shirt';
-    // Search by keyword
-    searchPage.searchByKeyword({ keyword });
 
-    // Validate the search result
-    searchPage.checkSearchResults({ keyword });
+    searchPage.searchByKeyword({ keyword }); // Search by keyword
+    searchPage.checkSearchResults({ keyword }); // Validate the search result
   });
 
   it('Search without results', () => {
-    searchPage.searchByKeyword({ keyword: 'motorcycle' });
-
-    // Validate the search result
-    cy.get(searchPage.noticeMessage).should('be.visible')
-      .and('contain.text', 'Your search returned no results.');
+    searchPage.searchByKeyword({ keyword: 'motorcycle' }); // Search by keyword\
+    searchPage.messageNoResults() // Validate the search result
   });
 });

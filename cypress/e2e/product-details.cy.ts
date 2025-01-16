@@ -10,16 +10,12 @@ describe('Product Details Page test', () => {
   });
 
   it('View product details', () => {
-    searchPage.searchByKeyword({ keyword: 'shirt' });
-
-    productDetailsPage.checkProductDetails();
+    searchPage.searchByKeyword({ keyword: 'shirt' }); // Search for a product
+    productDetailsPage.checkProductDetails(); // Check the product details
   });
 
   it('Add a product to the cart', () => {
-    // Select a product
-    productDetailsPage.addProductToCart();
-
-    // Check if the product was added to the cart
-    productDetailsPage.checkProductAddedToCart()
+    productDetailsPage.addProductToCart(); // Select a product
+    productDetailsPage.checkProductAddedToCart() // Check if the product was added to the cart
   });
 })
