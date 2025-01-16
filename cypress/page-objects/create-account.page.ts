@@ -104,6 +104,14 @@ class CreateAccountPage {
       });
     });
   }
+
+  /**
+   * Check the success message after registration
+   */
+  successRegistrationMessage() {
+    cy.get(this.successMessage).should('be.visible')
+      .and('contain.text', 'Thank you for registering with Main Website Store.');
+  }
 }
 
 export default new CreateAccountPage();

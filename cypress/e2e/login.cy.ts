@@ -18,19 +18,10 @@ describe('Authentication Test', () => {
   it('Login with valid credentials', () => {
     const { firstName, lastName, email, password } = loginPage.user;
     const fullName: string = `${firstName} ${lastName}`;
-    cy.login({ email, password }) // Fill in the login form and submit it
 
-    // Check the API request
-    cy.wait('@sessionAutentication').then((req: any) => {
-      const fullNameFromAPI: any = req.response.body.customer.fullname;
-      expect(req.state).to.equal('Complete');
-      expect(fullNameFromAPI).to.equal(fullName);
-    })
-
-    // Check if the user is logged in
-    cy.get(loginPage.loginPanel).find('span')
-      .should('be.visible')
-      .and('contain.text', `Welcome, ${fullName}!`);
+    cy.login({ email, password }); // Fill in the login form and submit it
+    loginPage.checkTheAPIRequest({ valueToCheck: fullName }); // Check the API request
+    loginPage.successLoginMessage({ fullName }); // Check if the user is logged in
   });
 
   it('Login with invalid credentials', () => {
@@ -41,12 +32,12 @@ describe('Authentication Test', () => {
     })
 
     // Check if the error message is displayed
-    cy.get(loginPage.errorMessage).should('be.visible')
-      .and('contain.text', 'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later');
+    loginPage.errorLoginMessage();
   })
 
   it('Registering a new user', () => {
     const { firstName, lastName, email, password } = createAccountPage.newUser; // Generate random user data
+    const fullName: string = `${firstName} ${lastName}`;
 
     createAccountPage.clickOnCreateAccountButton(); // Click on the "Create an Account" button
     createAccountPage.checkPageTitle({ title: 'Create New Customer Account' });
@@ -59,17 +50,8 @@ describe('Authentication Test', () => {
       password
     })
 
-    cy.contains('button', 'Create an Account').click(); // Confirm the registration
-
-    // Check the API request
-    cy.wait('@sessionAutentication').then((req: any) => {
-      const fullName: string = `${firstName} ${lastName}`;
-      const fullNameFromAPI: any = req.response.body.customer.fullname;
-      expect(req.state).to.equal('Complete');
-      expect(fullNameFromAPI).to.equal(fullName);
-    })
-
-    cy.get(createAccountPage.successMessage).should('be.visible')
-      .and('contain.text', 'Thank you for registering with Main Website Store.');
+    loginPage.clickOnCreateAnAccountButton(); // Confirm the registration
+    loginPage.checkTheAPIRequest({ valueToCheck: fullName }); // Check the API request
+    createAccountPage.successRegistrationMessage(); // Check the success message
   })
 });

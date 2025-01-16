@@ -1,3 +1,11 @@
+interface CheckAPIRequestParams {
+  valueToCheck: string;
+}
+
+interface SuccessLoginParams {
+  fullName: string;
+}
+
 class LoginPage {
   get user(): { firstName: string, lastName: string, email: string, password: string } {
     return {
@@ -28,6 +36,51 @@ class LoginPage {
     return '.message-error';
   }
 
+  // FUNCTIONS -----------------------------------//
+
+  /**
+   * Click on the "Create an Account" button
+   */
+  clickOnCreateAnAccountButton() {
+    cy.contains('button', 'Create an Account').click();
+  }
+
+  /**
+   * Check the API request to validate the user's login
+   *
+   * @param {object} params
+   * @param {string} params.valueToCheck - The value to check in the API request
+   */
+  checkTheAPIRequest(params: CheckAPIRequestParams) {
+    const { valueToCheck } = params;
+
+    cy.wait('@sessionAutentication').then((req: any) => {
+      const fullNameFromAPI: any = req.response.body.customer.fullname;
+      expect(req.state).to.equal('Complete');
+      expect(fullNameFromAPI).to.equal(valueToCheck);
+    })
+  }
+
+  /**
+   * Check the success message after login
+   *
+   * @param {object} params
+   * @param {string} params.fullName - The user's full name
+   */
+  successLoginMessage(params: SuccessLoginParams) {
+    const { fullName } = params;
+    cy.get(this.loginPanel).find('span')
+      .should('be.visible')
+      .and('contain.text', `Welcome, ${fullName}!`);
+  }
+
+  /**
+   * Check if the error message is displayed
+   */
+  errorLoginMessage() {
+    cy.get(this.errorMessage).should('be.visible')
+      .and('contain.text', 'The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later');
+  }
 }
 
 export default new LoginPage();
