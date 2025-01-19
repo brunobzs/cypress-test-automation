@@ -1,41 +1,21 @@
-name: Run Cypress Tests
-
-on:
-  schedule:
-    - cron: '0 20 * * *'
-
-  push:
-    branches: [ master ]
-
+name: Cypress Tests
+on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  cypress-run:
+    runs-on: ubuntu-22.04
     strategy:
-      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      fail-fast: false
       matrix:
-        node-version: [ 22.x ] # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        browser: [ chrome, firefox ]
-        containers: [1, 2] # Uses 2 parallel instances
-
+        containers: [1, 2, 3]
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: npm i
-
-      - name: Run Cypress Tests
-        run: |
-          npx cypress run \
-            --record \
-            --key 9f264146-cc33-40ca-b436-a2841eeaf9a8 \
-            --parallel \
-            --group "browser-${{ matrix.browser }}" \
-            --browser ${{ matrix.browser }} 
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          name: test-results
-          path: ./test-results
+          record: true
+          parallel: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
