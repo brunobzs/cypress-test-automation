@@ -6,12 +6,11 @@ describe('Authentication', () => {
   it('successfully logs in', () => {
     cy.contains('a', 'Sign In').click()
 
-    cy.get('#email').type(Cypress.env('EMAIL'))
-    cy.get('#pass').type(Cypress.env('PASSWORD'), { log: false })
+    cy.get('#email').type(`${Cypress.env('EMAIL')}`)
+    cy.get('#pass').type(`${Cypress.env('PASSWORD')}`, { log: false })
     cy.contains('button', 'Sign In').click()
 
-    cy.contains('.greet.welcome', 'Welcome, Zane Sporer!')
-      .should('be.visible')
+    cy.contains('.greet.welcome', 'Welcome, User Test!').should('be.visible')
   })
 
   it('shows an error message when trying to login with invalid credentials', () => {
@@ -37,7 +36,6 @@ describe('Authentication', () => {
     cy.get('#password-confirmation').type(password)
     cy.contains('button', 'Create an Account').click()
 
-    cy.contains('Thank you for registering with Main Website Store.')
-      .should('be.visible')
+    cy.contains('Thank you for registering with Main Website Store.').should('be.visible')
   })
 })

@@ -6,9 +6,7 @@ describe('Search', () => {
 
     cy.url().should('include', 'result/?q=shirt')
     cy.contains('h1', "Search results for: 'shirt'").should('be.visible')
-    cy.get('.product-item')
-      .its('length')
-      .should('be.greaterThan', 0)
+    cy.get('.product-item').its('length').should('be.greaterThan', 0)
   })
 
   it('searches for an non-existing product', () => {
@@ -16,7 +14,6 @@ describe('Search', () => {
 
     cy.url().should('include', 'result/?q=motorcycle')
     cy.contains('h1', "Search results for: 'motorcycle'").should('be.visible')
-    cy.get('.product-item')
-      .should('not.exist')
+    cy.get('.product-item').should('not.exist')
   })
 })
