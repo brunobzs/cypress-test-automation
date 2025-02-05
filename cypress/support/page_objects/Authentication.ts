@@ -1,8 +1,4 @@
 class Authentication {
-  get signInButton() {
-    return cy.contains('button', 'Sign In');
-  }
-
   get successLogInMessage() {
     return cy.contains('.greet.welcome', 'Welcome, User Test!').should('be.visible')
   }
@@ -10,10 +6,6 @@ class Authentication {
   get errorLogInMessage() {
     return cy.contains('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.')
       .should('be.visible')
-  }
-
-  get createAccountButton() {
-    return cy.contains('Create an Account');
   }
 
   get successRegisterMessage() {
@@ -26,6 +18,14 @@ class Authentication {
 
   fillPasswordInput(password) {
     cy.get('#pass').type(password, { log: false });
+  }
+
+  signIn({ isButton }) {
+    return cy.contains(isButton ? 'button' : 'a', 'Sign In');
+  }
+
+  createAccount({ isButton }) {
+    return cy.contains(isButton ? 'button' : 'a', 'Create an Account');
   }
 
   registerNewUser({ firstName, lastName, email, password }) {
