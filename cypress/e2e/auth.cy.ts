@@ -28,8 +28,8 @@ describe('Authentication', () => {
     Authentication.createAccountButton.click()
 
     Authentication.registerNewUser({
-      firstname: faker.person.firstName(),
-      lastname: faker.person.lastName(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password()
     })
