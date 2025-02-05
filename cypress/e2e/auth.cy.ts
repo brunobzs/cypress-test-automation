@@ -1,41 +1,41 @@
 import { faker } from '@faker-js/faker/locale/en'
+import Authentication from '../support/page_objects/Authentication'
 
 describe('Authentication', () => {
   beforeEach(() => cy.visit(''))
 
   it('successfully logs in', () => {
-    cy.contains('a', 'Sign In').click()
+    Authentication.signInButton.click()
 
-    cy.get('#email').type(`${Cypress.env('EMAIL')}`)
-    cy.get('#pass').type(`${Cypress.env('PASSWORD')}`, { log: false })
-    cy.contains('button', 'Sign In').click()
+    Authentication.fillEmailInput(Cypress.env('EMAIL'))
+    Authentication.fillPasswordInput(Cypress.env('PASSWORD'))
+    Authentication.signInButton.click()
 
-    cy.contains('.greet.welcome', 'Welcome, User Test!').should('be.visible')
+    Authentication.successLogInMessage
   })
 
   it('shows an error message when trying to login with invalid credentials', () => {
-    cy.contains('a', 'Sign In').click()
+    Authentication.signInButton.click()
 
-    cy.get('#email').type('wrongUser@email.com')
-    cy.get('#pass').type('wrongPassword1')
-    cy.contains('button', 'Sign In').click()
+    Authentication.fillEmailInput('wrongUser@email.com')
+    Authentication.fillPasswordInput('wrongPassword1')
+    Authentication.signInButton.click()
 
-    cy.contains('The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.')
-      .should('be.visible')
+    Authentication.errorLogInMessage
   })
 
   it('successfully registers a new user', () => {
-    const password = faker.internet.password()
+    Authentication.createAccountButton.click()
 
-    cy.contains('a', 'Create an Account').click()
+    Authentication.registerNewUser({
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    })
 
-    cy.get('#firstname').type(faker.person.firstName())
-    cy.get('#lastname').type(faker.person.lastName())
-    cy.get('#email_address').type(faker.internet.email())
-    cy.get('#password').type(password)
-    cy.get('#password-confirmation').type(password)
-    cy.contains('button', 'Create an Account').click()
+    Authentication.createAccountButton.click()
 
-    cy.contains('Thank you for registering with Main Website Store.').should('be.visible')
+    Authentication.successRegisterMessage
   })
 })
