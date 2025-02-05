@@ -1,6 +1,6 @@
-# Test Automation with Cypress and TypeScript
+# Test Automation with Cypress, TypeScript and Page Objects Model
 
-This repository contains a test automation project developed with **Cypress** and **TypeScript**. The goal of this project is to validate the functionalities of an [e-commerce](https://magento.softwaretestingboard.com/), ensuring that the main user journeys work as expected.
+This repository contains a test automation project developed with **Cypress**, **TypeScript** and **Page Objects Model (POM)**. The goal of this project is to validate the functionalities of an [e-commerce](https://magento.softwaretestingboard.com/), ensuring that the main user journeys work as expected.
 
 ## 🛠️ About the Project
 
@@ -51,7 +51,8 @@ npm test
 ```
 ├── cypress
 │ ├── e2e                  # Test files
-│ ├── support              # Cypress support files
+│ └── support              # Cypress support files
+│   └── page_objects       # Page Objects Models
 ├── cypress.config.ts      # Cypress configuration
 ├── package.json           # Project dependencies, npm scripts, etc.
 ├── tsconfig.json          # TypeScript configuration

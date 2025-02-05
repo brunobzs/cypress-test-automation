@@ -1,11 +1,11 @@
 class Search {
-  searchFor(value) {
+  searchFor(value: string) {
     cy.get('#search').type(`${value}{enter}`)
     cy.url().should('include', `result/?q=${value}`)
-    cy.contains('h1', `Search results for: ${value}`).should('be.visible')
+    cy.contains('h1', `Search results for: '${value}'`).should('be.visible')
   }
 
-  searchResult({ success }) {
+  searchResult({ success }: { success: boolean }) {
     if (success) {
       cy.get('.product-item').its('length').should('be.greaterThan', 0)
     } else {

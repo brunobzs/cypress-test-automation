@@ -12,23 +12,23 @@ class Authentication {
     return cy.contains('Thank you for registering with Main Website Store.').should('be.visible')
   }
 
-  fillEmailInput(email) {
+  fillEmailInput(email: string) {
     cy.get('#email').type(email);
   }
 
-  fillPasswordInput(password) {
+  fillPasswordInput(password: string) {
     cy.get('#pass').type(password, { log: false });
   }
 
-  signIn({ isButton }) {
+  signIn({ isButton }: { isButton: boolean }) {
     return cy.contains(isButton ? 'button' : 'a', 'Sign In');
   }
 
-  createAccount({ isButton }) {
+  createAccount({ isButton }: { isButton: boolean }) {
     return cy.contains(isButton ? 'button' : 'a', 'Create an Account');
   }
 
-  registerNewUser({ firstName, lastName, email, password }) {
+  registerNewUser({ firstName, lastName, email, password }: { firstName: string, lastName: string, email: string, password: string }) {
     cy.get('#firstname').type(firstName)
     cy.get('#lastname').type(lastName)
     cy.get('#email_address').type(email)

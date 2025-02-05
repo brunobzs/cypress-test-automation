@@ -14,7 +14,7 @@ class ShoppingCart {
     cy.contains('button', 'Add to Cart').click()
   }
 
-  checkChartCounter({ quantity }) {
+  checkChartCounter({ quantity }: { quantity: number }) {
     cy.contains('.counter.qty', quantity).should('be.visible')
 
   }
