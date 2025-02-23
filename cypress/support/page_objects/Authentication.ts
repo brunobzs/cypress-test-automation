@@ -1,3 +1,10 @@
+interface RegisterNewUserParams {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 class Authentication {
   get successLogInMessage() {
     return cy.contains('.greet.welcome', 'Welcome, User Test!').should('be.visible')
@@ -28,7 +35,9 @@ class Authentication {
     return cy.contains(isButton ? 'button' : 'a', 'Create an Account');
   }
 
-  registerNewUser({ firstName, lastName, email, password }: { firstName: string, lastName: string, email: string, password: string }) {
+  registerNewUser(params: RegisterNewUserParams) {
+    const { firstName, lastName, email, password } = params;
+
     cy.get('#firstname').type(firstName)
     cy.get('#lastname').type(lastName)
     cy.get('#email_address').type(email)
