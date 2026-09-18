@@ -4,7 +4,7 @@ describe('Shopping Cart', () => {
   beforeEach(() => cy.visit(''))
 
   it('successfully adds a product to the cart', () => {
-    ShoppingCart.addProductToChart()
-    ShoppingCart.checkChartCounter({ quantity: 1 })
+    ShoppingCart.addProductToCart()
+    ShoppingCart.verifyCartCounter({ quantity: 1 })
   })
 })

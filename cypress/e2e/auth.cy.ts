@@ -5,27 +5,29 @@ describe('Authentication', () => {
   beforeEach(() => cy.visit(''))
 
   it('successfully logs in', () => {
-    Authentication.signIn({ isButton: false }).click()
+    Authentication.goToLoginPage()
 
-    Authentication.fillEmailInput(Cypress.env('EMAIL'))
-    Authentication.fillPasswordInput(Cypress.env('PASSWORD'))
-    Authentication.signIn({ isButton: true }).click()
+    Authentication.login({
+      email: Cypress.env('EMAIL'),
+      password: Cypress.env('PASSWORD')
+    })
 
     Authentication.successLogInMessage
   })
 
   it('shows an error message when trying to login with invalid credentials', () => {
-    Authentication.signIn({ isButton: false }).click()
+    Authentication.goToLoginPage()
 
-    Authentication.fillEmailInput('wrongUser@email.com')
-    Authentication.fillPasswordInput('wrongPassword1')
-    Authentication.signIn({ isButton: true }).click()
+    Authentication.login({
+      email: 'wrongUser@email.com',
+      password: 'wrongPassword1'
+    })
 
     Authentication.errorLogInMessage
   })
 
   it('successfully registers a new user', () => {
-    Authentication.createAccount({ isButton: false }).click()
+    Authentication.goToRegisterPage()
 
     Authentication.registerNewUser({
       firstName: faker.person.firstName(),
@@ -34,7 +36,7 @@ describe('Authentication', () => {
       password: faker.internet.password()
     })
 
-    Authentication.createAccount({ isButton: true }).click()
+    Authentication.submitRegisterForm()
 
     Authentication.successRegisterMessage
   })
